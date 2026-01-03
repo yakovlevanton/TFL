@@ -1,0 +1,52 @@
+digraph DFA {
+    rankdir=LR;
+    node [shape=circle, style=filled, fillcolor=white];
+
+    // Определение состояний
+    1 [label="1"];
+    2 [label="2"];
+    3 [label="3"];
+    4 [label="4"];
+    5 [label="5"];
+    6 [label="6", shape=doublecircle]; // accept
+    7 [label="7", shape=doublecircle]; // accept
+    8 [label="8", shape=doublecircle]; // accept
+    9 [label="9", shape=doublecircle]; // accept
+    10 [label="10", shape=doublecircle]; // accept
+    11 [label="11", shape=doublecircle]; // accept
+    12 [label="12", shape=doublecircle]; // accept
+    13 [label="13", shape=doublecircle]; // accept
+    start [shape=circle, label="", width=0.01, height=0.01, style=invis];
+
+    // Стрелка из "ниоткуда" в начальное состояние 1
+    start -> 1 [arrowhead=normal, style=solid, label="Start"];
+    // Переходы по символу 'a'
+    1 -> 2 [label="a"];
+    2 -> 2 [label="a"];
+    3 -> 4 [label="a"];
+    4 -> 6 [label="a"];
+    5 -> 6 [label="a"];
+    6 -> 9 [label="a"];
+    7 -> 11 [label="a"];
+    8 -> 9 [label="a"];
+    9 -> 2 [label="a"];
+    10 -> 4 [label="a"];
+    11 -> 6 [label="a"];
+    12 -> 6 [label="a"];
+    13 -> 2 [label="a"];
+
+    // Переходы по символу 'b'
+    1 -> 1 [label="b"];
+    2 -> 3 [label="b"];
+    3 -> 5 [label="b"];
+    4 -> 7 [label="b"];
+    5 -> 8 [label="b"];
+    6 -> 10 [label="b"];
+    7 -> 12 [label="b"];
+    8 -> 13 [label="b"];
+    9 -> 3 [label="b"];
+    10 -> 12 [label="b"];
+    11 -> 7 [label="b"];
+    12 -> 8 [label="b"];
+    13 -> 13 [label="b"];
+}
