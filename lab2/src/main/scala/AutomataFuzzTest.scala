@@ -89,12 +89,33 @@ object AutomataFuzzTest {
     states.exists(accepting.contains)
   }
 
+  val subDfaTransitions: Map[(Int, Char), Int] = Map(
+    (1, 'a') -> 2,
+    (1, 'b') -> 1,
+    (2, 'a') -> 2,
+    (2, 'b') -> 3,
+    (3, 'a') -> 4,
+    (3, 'b') -> 4,
+    (4, 'a') -> 5,
+    (4, 'b') -> 5,
+    (5, 'a') -> 5,
+    (5, 'b') -> 5
+  )
+
+  def subDfaAccepts(word: String): Boolean = {
+    val subDfaAccepting: Set[Int] = Set(5)
+    val finalState = word.foldLeft(1) { (state, ch) =>
+      subDfaTransitions.getOrElse((state, ch), -1)
+    }
+    subDfaAccepting.contains(finalState)
+  }
+
   val regex = "^(a|b)*ab(a|b)(a|b)(a|b*)$".r
   def regexAccepts(word: String): Boolean =
     regex.matches(word)
 
   def afaAccepts(word: String): Boolean =
-    word.forall(ch => ch == 'a' || ch == 'b') && dfaAccepts(word)
+    subDfaAccepts(word) && dfaAccepts(word)
 
   def randomWords(n: Int, maxLen: Int, seed: Int = 42): Seq[String] = {
     val rnd = new Random(seed)
@@ -106,7 +127,7 @@ object AutomataFuzzTest {
 
   // --------------------- Fuzz test ------------------------
 
-  def fuzzTest(numTests: Int = 500, maxLen: Int = 30): Unit = {
+  def fuzzTest(numTests: Int = 1000, maxLen: Int = 40): Unit = {
     println("Fuzz tests for DFA, NFA, AFA and regex equivalence")
 
     val tests = randomWords(numTests, maxLen)
